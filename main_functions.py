@@ -93,6 +93,7 @@ def main():
         range_of_table_get = input('Enter range in A1 notation: ')
         get_values(range_of_table_get)
 
+text = 'ddd'
 
 if __name__ == '__main__':
     main()
