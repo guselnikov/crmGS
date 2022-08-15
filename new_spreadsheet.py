@@ -55,8 +55,8 @@ def main():
             .execute()
         print(f"Spreadsheet ID: {(spreadsheet.get('spreadsheetId'))}")
         return spreadsheet.get('spreadsheetId')
-    except HttpError as err:
-        print(err)
+    except HttpError as errr:
+        print(errr)
 
 
 if __name__ == '__main__':
