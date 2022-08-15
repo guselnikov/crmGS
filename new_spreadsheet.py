@@ -1,6 +1,5 @@
 
-# Этот скрипт выводит первые три столбца второй строки если они есть
-
+# Этот скрипт создает новую таблицу с новым ID и заголовком title
 
 from __future__ import print_function
 
@@ -18,7 +17,7 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapi
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1k40lGVdZNvytbByH2Ap45ojFGJfjLrG-MIQEBIUVIJY'
 SAMPLE_RANGE_NAME = 'A2:C'
-
+title = 'new_sheet'
 
 def main():
     """Shows basic usage of the Sheets API.
@@ -46,19 +45,16 @@ def main():
     try:
         service = build('sheets', 'v4', credentials=creds)
 
-        # Call the Sheets API
-        sheet = service.spreadsheets()
-        result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID,
-                                    range=SAMPLE_RANGE_NAME).execute()
-        values = result.get('values', [])
-
-        if not values:
-            print('No data found.')
-            return
-
-        print('Первые три столбца второй строки:')
-        for row in values:
-            print('%s, %s, %s' %(row[0], row[1], row[2]))
+        spreadsheet = {
+            'properties': {
+                'title': title
+            }
+        }
+        spreadsheet = service.spreadsheets().create(body=spreadsheet,
+                                                    fields='spreadsheetId') \
+            .execute()
+        print(f"Spreadsheet ID: {(spreadsheet.get('spreadsheetId'))}")
+        return spreadsheet.get('spreadsheetId')
     except HttpError as err:
         print(err)
 
